@@ -353,3 +353,24 @@ Gradle DSL method not found: 'useLibrary()'
 
 #### 3. 下载图片
 
+```java
+ /** apache 接口实现的图片下载。
+     * @param url 请求图片的 url。
+     * @return bitmap
+     */
+    static Bitmap getImage(String url) {
+        try {
+            HttpGet httpGet = new HttpGet(url);
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            InputStream inputStream = httpEntity.getContent();
+            System.out.println(inputStream.available());
+            return BitmapFactory.decodeStream(inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+```
+
