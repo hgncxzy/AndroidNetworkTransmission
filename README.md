@@ -1,6 +1,12 @@
 # AndroidBasicDataCommunication
 Android 基本的数据通信，使用原生形式(非三方框架)实现 get 请求，post 请求，图片下载，文件上传与下载，xml 解析等。
 
+Android 基本数据通信包含 3 种通信接口。
+
+1. 标准的 Java 接口：java.net。
+2. Apache 接口：org.apache.http。
+3. Android 网络接口：android.net.http。
+
 ### 1. 使用 java.net 接口
 
 #### 1. get 请求
