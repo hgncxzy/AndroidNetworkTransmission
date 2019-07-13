@@ -32,7 +32,9 @@ class HttpGetUtil {
      * @param path 请求 url
      * @param params 请求参数 map 类型
      */
-    static void getRequest(String path, Map<String, String> params, HttpCallBackListener httpCallBackListener){
+    static void getRequest(String path, 
+                           Map<String, String> params, 
+                           HttpCallBackListener httpCallBackListener){
         StringBuilder sb = new StringBuilder(path);
         if(params!=null && !params.isEmpty()){
             sb.append("?");
@@ -137,7 +139,9 @@ import java.util.Objects;
  */
 class HttpPostUtil {
 
-     static void postRequest(String path, Map<String, String> params,HttpCallBackListener httpCallBackListener){
+     static void postRequest(String path, 
+                             Map<String, String> params,
+                             HttpCallBackListener httpCallBackListener){
         StringBuilder sb = new StringBuilder();
         if(params!=null && !params.isEmpty()){
             for(Map.Entry<String, String> entry : params.entrySet()){
