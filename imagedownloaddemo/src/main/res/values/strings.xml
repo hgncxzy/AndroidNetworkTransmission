@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ImageDownloadDemo</string>
+    <string name="edit_tv_hint">input image url</string>
+    <string name="download">下载</string>
+</resources>
