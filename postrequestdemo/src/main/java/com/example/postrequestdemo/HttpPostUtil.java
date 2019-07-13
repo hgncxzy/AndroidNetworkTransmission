@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * post 请求工具类封装。
+ * post 请求工具类封装。使用的是标准的 java 接口：java.net
  */
 class HttpPostUtil {
 

@@ -17,7 +17,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * get 请求 demo
+ * 使用的是标准的 java 接口：java.net ,通过 get 请求的 demo。
  */
 public class UserInformationActivity extends Activity implements HttpGetUtil.HttpCallBackListener{
     private EditText titleText;

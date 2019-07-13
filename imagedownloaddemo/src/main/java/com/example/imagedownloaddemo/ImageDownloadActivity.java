@@ -18,7 +18,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * 从网络下载一张图片的 demo。
+ * 从网络下载一张图片的 demo。使用的是标准的 java 接口：java.net。
  */
 public class ImageDownloadActivity extends AppCompatActivity {
 

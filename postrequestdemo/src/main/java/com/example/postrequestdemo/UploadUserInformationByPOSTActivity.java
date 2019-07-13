@@ -16,6 +16,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * 使用的是标准的 java 接口：java.net ,通过 post 请求的 demo。
+ */
 public class UploadUserInformationByPOSTActivity extends Activity implements HttpPostUtil.HttpCallBackListener {
 	private EditText titleText;
     private EditText lengthText;

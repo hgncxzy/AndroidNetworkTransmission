@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * get 请求工具类封装
+ * get 请求工具类封装。使用的是标准的 java 接口：java.net
  */
 class HttpGetUtil {
 

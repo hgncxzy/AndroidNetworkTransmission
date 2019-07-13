@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * 图片下载工具类封装。
+ * 图片下载工具类封装。使用的是标准的 java 接口：java.net。
  */
 class ImageService {
 
