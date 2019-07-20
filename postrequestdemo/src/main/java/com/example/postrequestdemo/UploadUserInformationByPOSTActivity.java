@@ -62,8 +62,8 @@ public class UploadUserInformationByPOSTActivity extends Activity implements Htt
 	@Override
 	public void onFinish(String response) {
 		disposable = Flowable.just(response)
-				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(AndroidSchedulers.mainThread())
+				.observeOn(AndroidSchedulers.mainThread())
 				.doOnNext(new Consumer<String>() {
 					@Override
 					public void accept(String s) {
@@ -79,8 +79,8 @@ public class UploadUserInformationByPOSTActivity extends Activity implements Htt
 	@Override
 	public void onError(Exception e) {
 		disposable = Flowable.just(e)
-				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(AndroidSchedulers.mainThread())
+				.observeOn(AndroidSchedulers.mainThread())
 				.doOnNext(new Consumer<Exception>() {
 					@Override
 					public void accept(Exception e) {

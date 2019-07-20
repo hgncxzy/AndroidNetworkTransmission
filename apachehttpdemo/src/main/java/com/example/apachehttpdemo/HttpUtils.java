@@ -32,11 +32,11 @@ class HttpUtils {
              HttpClient httpClient = new DefaultHttpClient();
              httpResponse = httpClient.execute(httpGet);
              HttpEntity httpEntity = httpResponse.getEntity();
-             result.append(EntityUtils.toString(httpEntity, "utf-8"));
+             StringBuilder append = result.append(EntityUtils.toString(httpEntity, "utf-8"));
              StatusLine statusLine = httpResponse.getStatusLine();
-             result.append(statusLine.getProtocolVersion() + "\r\n");
+             result.append(statusLine.getProtocolVersion()).append("\r\n");
              int statusCode = statusLine.getStatusCode();
-             result.append(statusCode + "\r\n");
+             result.append(statusCode).append("\r\n");
 
          } catch (IOException e) {
              e.printStackTrace();
@@ -60,7 +60,7 @@ class HttpUtils {
             StatusLine statusLine = httpResponse.getStatusLine();
             statusLine.getProtocolVersion();
             int statusCode = statusLine.getStatusCode();
-            result.append(statusCode+"\r\n");
+            result.append(statusCode).append("\r\n");
 
         } catch (IOException e) {
            e.printStackTrace();

@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HTTPDemoActivity extends Activity {
 
-    private TextView resutlView;
+    private TextView resultView;
     private ImageView imageView;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -31,7 +31,7 @@ public class HTTPDemoActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        resutlView = findViewById(R.id.resultView);
+        resultView = findViewById(R.id.resultView);
         imageView = findViewById(R.id.imgeView01);
     }
 
@@ -49,7 +49,7 @@ public class HTTPDemoActivity extends Activity {
                 .doOnNext(new Consumer<String>() {
                     @Override
                     public void accept(String s) {
-                        resutlView.setText(s);
+                        resultView.setText(s);
                     }
                 })
                 .subscribe();
@@ -71,7 +71,7 @@ public class HTTPDemoActivity extends Activity {
                 .doOnNext(new Consumer<String>() {
                     @Override
                     public void accept(String s) {
-                        resutlView.setText(s);
+                        resultView.setText(s);
                     }
                 })
                 .subscribe();

@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 class HttpPostUtil {
 
-     static void postRequest(String path, Map<String, String> params,HttpCallBackListener httpCallBackListener){
+    static void postRequest(String path, Map<String, String> params,HttpCallBackListener httpCallBackListener){
         StringBuilder sb = new StringBuilder();
         if(params!=null && !params.isEmpty()){
             for(Map.Entry<String, String> entry : params.entrySet()){
@@ -51,7 +51,7 @@ class HttpPostUtil {
                  httpCallBackListener.onError(e);
              }
          }
-         conn.setDoOutput(true);
+        conn.setDoOutput(true);
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         conn.setRequestProperty("Content-Length", data.length+"");
          OutputStream outStream = null;

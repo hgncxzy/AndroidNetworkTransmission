@@ -1,13 +1,13 @@
 package com.example.imagedownloaddemo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -41,7 +41,7 @@ public class ImageDownloadActivity extends AppCompatActivity {
 
     public  void handle(View view){
         Disposable disposable = Flowable.just(imgUrl)
-                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .map(new Function<String, Bitmap>() {
                     @Override
                     public Bitmap apply(String imgUrl) throws Exception {
