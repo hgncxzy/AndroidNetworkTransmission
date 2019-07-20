@@ -56,7 +56,7 @@ class HttpUtils {
             HttpClient httpClient = new DefaultHttpClient();
             httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
-            result.append(EntityUtils.toString(httpEntity, "utf-8"));
+            StringBuilder append = result.append(EntityUtils.toString(httpEntity, "utf-8"));
             StatusLine statusLine = httpResponse.getStatusLine();
             statusLine.getProtocolVersion();
             int statusCode = statusLine.getStatusCode();
