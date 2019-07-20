@@ -14,15 +14,16 @@ class ImageService {
 
     /**
      * 获取图片
+     *
      * @param path 图片路径
      * @return bitmap
      */
-    static Bitmap getImage(String path) throws Exception{
+    static Bitmap getImage(String path) throws Exception {
         URL url = new URL(path);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(5000);
         conn.setRequestMethod("GET");
-        if(conn.getResponseCode() == 200){
+        if (conn.getResponseCode() == 200) {
             InputStream inStream = conn.getInputStream();
             return BitmapFactory.decodeStream(inStream);
         }
