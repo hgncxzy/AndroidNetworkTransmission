@@ -11,6 +11,7 @@ Android 基本数据通信包含 3 种通信接口。
 
 #### 1. get 请求
 
+
 详细例子请查看 getrequestdemo。
 
 ```java

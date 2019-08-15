@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 使用 apache 接口实现的 get 请求、post 请求、图片下载 封装工具类。
+ * 使用 apache 接口 HttpClient 实现的 get 请求、post 请求、图片下载 封装工具类。
  */
 @SuppressWarnings("unused")
 class ApacheHttpUtils {
