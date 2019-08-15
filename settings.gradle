@@ -1,1 +1,1 @@
-include ':app', ':getrequestdemo', ':postrequestdemo', ':imagedownloaddemo', ':apachehttpdemo'
+include ':javaapihttpdemo', ':apacheapihttpdemo'
