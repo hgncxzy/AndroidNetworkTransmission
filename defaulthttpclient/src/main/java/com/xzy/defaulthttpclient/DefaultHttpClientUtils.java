@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 使用 android.net.http 方式实现请求。
+ * 使用 apache DefaultHttpClient 方式实现 get、post、image 请求。
  *
  * @author xzy
  */
