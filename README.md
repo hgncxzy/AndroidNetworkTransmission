@@ -16,7 +16,7 @@ Android 基本数据通信包含 3 种通信接口。
 
    - 一个接口是 org.apache.http.impl.client.DefaultHttpClient，从包名可以看出是对 Apache 接口的封装。
 
-**综上，Android 网络接口本质是对 Apache 的封装。**我们先来回顾下基础概念。
+**综上，Android 网络接口本质是对 Apache 的封装。** 我们先来回顾下基础概念。
 
 ### Android Http
 
