@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        tools:ignore="RtlHardcoded">
+        <Button android:id="@+id/getBtn"
+            android:text="GET请求"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            tools:ignore="ButtonStyle,HardcodedText"
+            android:onClick="get"/>
+        <Button android:id="@+id/postBtn"
+            android:text="POST请求"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            tools:ignore="ButtonStyle,HardcodedText"
+            android:onClick="post"/>
+    </LinearLayout>
+
+    <Button android:id="@+id/imgBtn"
+        android:text="获取图片"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_gravity="left"
+        tools:ignore="HardcodedText,RtlHardcoded"
+        android:onClick="image"/>
+    <ImageView android:id="@+id/imgeView01"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        tools:ignore="ContentDescription" />
+    <TextView android:id="@+id/resultView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"/>
+</LinearLayout>

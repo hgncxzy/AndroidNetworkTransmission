@@ -1,1 +1,1 @@
-include ':javaapihttpdemo', ':apacheapihttpdemo'
+include ':javahttp', ':apachehttp', ':androidhttp'
