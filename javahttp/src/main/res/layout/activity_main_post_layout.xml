@@ -42,4 +42,10 @@
         android:onClick="save"
         />
 
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        />
 </LinearLayout>

@@ -36,9 +36,41 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button"
-        android:onClick="save"
+        android:text="get"
+        android:onClick="getReq"
+        android:textAllCaps="false"
+        android:textSize="30dp"
+        />
+    <Button
+        android:id="@+id/post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="post"
+        android:onClick="postReq"
+        android:textSize="30dp"
+        android:textAllCaps="false"
+        />
+    <Button
+        android:id="@+id/getImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="getImg"
+        android:onClick="getImageReq"
+        android:textSize="30dp"
+        android:textAllCaps="false"
+        />
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:textSize="30dp"
         />
 
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_launcher_background"
+        />
 </LinearLayout>

@@ -14,7 +14,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".PostActivity" />
         <activity android:name=".ImgDownloadActivity" />
-        <activity android:name=".GetActivity">
+        <activity android:name=".HttpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

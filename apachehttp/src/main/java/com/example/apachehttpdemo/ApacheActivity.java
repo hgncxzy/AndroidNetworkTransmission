@@ -17,6 +17,10 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.example.apachehttpdemo.consant.Constant.getUrl;
+import static com.example.apachehttpdemo.consant.Constant.imgUrl;
+import static com.example.apachehttpdemo.consant.Constant.postUrl;
+
 /**
  * 使用 Apache 接口实现的 get 请求、post 请求、图片下载 demo。
  */
@@ -36,8 +40,7 @@ public class ApacheActivity extends Activity {
     }
 
     public void get(View view){
-        String path = "http://mock.fcbox.com/mock/515/getRequest";
-        disposable = Flowable.just(path)
+        disposable = Flowable.just(getUrl)
                 .subscribeOn(Schedulers.io())
                 .map(new Function<String, String>() {
                    @Override
@@ -58,8 +61,7 @@ public class ApacheActivity extends Activity {
     }
 
     public void post(View view){
-        String path = "http://mock.fcbox.com/mock/515/postRequest";
-        disposable = Flowable.just(path)
+        disposable = Flowable.just(postUrl)
                 .subscribeOn(Schedulers.io())
                 .map(new Function<String, String>() {
                     @Override
@@ -79,10 +81,7 @@ public class ApacheActivity extends Activity {
     }
 
     public void image(View view){
-        String path = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_" +
-                "10000&sec=1563617434&di=d537abb896f6f79c61ffd945e12be12a&imgtype=" +
-                "jpg&er=1&src=http%3A%2F%2Fpic3.16pic.com%2F00%2F54%2F91%2F16pic_5491457_b.jpg";
-        disposable = Flowable.just(path)
+        disposable = Flowable.just(imgUrl)
                 .subscribeOn(Schedulers.io())
                 .map(new Function<String, Bitmap>() {
                     @Override
