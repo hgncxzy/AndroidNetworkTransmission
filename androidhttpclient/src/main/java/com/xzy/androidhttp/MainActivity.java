@@ -1,14 +1,14 @@
 package com.xzy.androidhttp;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -18,10 +18,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.xzy.androidhttp.consant.Constant.getUrl;
+import static com.xzy.androidhttp.consant.Constant.imgUrl;
+import static com.xzy.androidhttp.consant.Constant.postUrl;
+
 public class MainActivity extends Activity implements AndroidHttpClientUtils.HttpCallBackListener {
-    private Button get,post;
+    private Button get, post, getImg;
+    private ImageView imageView;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Disposable disposable;
     private TextView result;
@@ -33,18 +39,24 @@ public class MainActivity extends Activity implements AndroidHttpClientUtils.Htt
         result = findViewById(R.id.result);
         get = findViewById(R.id.get);
         post = findViewById(R.id.post);
-
+        getImg = findViewById(R.id.getImg);
+        imageView = findViewById(R.id.image);
         get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getReq();
             }
         });
-
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 postReq();
+            }
+        });
+        getImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getImg();
             }
         });
     }
@@ -57,7 +69,7 @@ public class MainActivity extends Activity implements AndroidHttpClientUtils.Htt
                     @Override
                     public void accept(Integer integer) {
                         // get 请求
-                        AndroidHttpClientUtils.get("http://www.baidu.com", MainActivity.this);
+                        AndroidHttpClientUtils.get(getUrl, MainActivity.this);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -81,9 +93,9 @@ public class MainActivity extends Activity implements AndroidHttpClientUtils.Htt
                     @Override
                     public void accept(Integer integer) {
                         // post 请求
-                        Map<String,String> map = new HashMap<>();
-                        map.put("name","xzy");
-                        AndroidHttpClientUtils.post("http://www.baidu.com", map, MainActivity.this);
+                        Map<String, String> map = new HashMap<>();
+                        map.put("name", "xzy");
+                        AndroidHttpClientUtils.post(postUrl, map, MainActivity.this);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -100,19 +112,48 @@ public class MainActivity extends Activity implements AndroidHttpClientUtils.Htt
         compositeDisposable.add(disposable);
     }
 
+    public void getImg() {
+        disposable = Flowable.just(1)
+                .subscribeOn(Schedulers.io())
+                .map(new Function<Integer, Bitmap>() {
+                    @Override
+                    public Bitmap apply(Integer integer) {
+                        return AndroidHttpClientUtils.image(imgUrl);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<Bitmap>() {
+                    @Override
+                    public void accept(Bitmap bitmap) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                })
+                .subscribe(new Consumer<Bitmap>() {
+                    @Override
+                    public void accept(Bitmap bitmap) {
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        Log.e("xzy", Objects.requireNonNull(throwable.getMessage()));
+                    }
+                });
+        compositeDisposable.add(disposable);
+    }
 
     @Override
-    public void onFinish(InputStream response) {
+    public void onFinish(String response) {
         disposable = Flowable.just(response)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<InputStream>() {
+                .doOnNext(new Consumer<String>() {
                     @Override
-                    public void accept(InputStream s) throws IOException {
-                        result.setText(AndroidHttpClientUtils.inputStream2String(s));
+                    public void accept(String s) {
+                        result.setText(s);
                     }
                 })
-               .subscribe();
+                .subscribe();
         compositeDisposable.add(disposable);
     }
 

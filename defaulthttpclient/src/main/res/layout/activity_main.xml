@@ -22,6 +22,20 @@
         android:textAllCaps="false"
         android:textSize="30dp"
         />
+    <Button
+        android:id="@+id/getImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取图片"
+        android:textAllCaps="false"
+        android:textSize="30dp"
+        />
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        />
     <TextView
         android:id="@+id/result"
         android:layout_width="match_parent"

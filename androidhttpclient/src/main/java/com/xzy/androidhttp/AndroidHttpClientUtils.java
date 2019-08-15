@@ -1,7 +1,10 @@
 package com.xzy.androidhttp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -38,7 +41,7 @@ public class AndroidHttpClientUtils {
                 }
             } else {
                 if (httpCallBackListener != null) {
-                    httpCallBackListener.onFinish(response.getEntity().getContent());
+                    httpCallBackListener.onFinish(inputStream2String(response.getEntity().getContent()));
                 }
             }
             ((AndroidHttpClient) client).close();
@@ -68,13 +71,13 @@ public class AndroidHttpClientUtils {
             HttpPost post = new HttpPost(url);
             post.setEntity(entity);
             HttpResponse response = client.execute(post);
-            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 if (httpCallBackListener != null) {
-                    httpCallBackListener.onError(new Exception(response.toString()));
+                    httpCallBackListener.onFinish(inputStream2String(response.getEntity().getContent()));
                 }
             } else {
                 if (httpCallBackListener != null) {
-                    httpCallBackListener.onFinish(response.getEntity().getContent());
+                    httpCallBackListener.onError(new Exception(response.getStatusLine().getStatusCode() + ""));
                 }
             }
             ((AndroidHttpClient) client).close();
@@ -91,13 +94,38 @@ public class AndroidHttpClientUtils {
         }
     }
 
-    public static String inputStream2String(InputStream is) throws IOException {
+    /**
+     * apache 接口实现的图片下载。
+     *
+     * @param url 请求图片的 url。
+     * @return bitmap
+     */
+    static Bitmap image(String url) {
+        try {
+            HttpGet httpGet = new HttpGet(url);
+            HttpClient httpClient = AndroidHttpClient.newInstance("");
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            InputStream inputStream = httpEntity.getContent();
+            System.out.println(inputStream.available());
+            return BitmapFactory.decodeStream(inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String inputStream2String(InputStream inputStream) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         byte[] b = new byte[4096];
-        for (int n; (n = is.read(b)) != -1; n++) {
+        for (int n; (n = inputStream.read(b)) != -1; n++) {
             stringBuffer.append(new String(b, 0, n));
         }
         return stringBuffer.toString();
+    }
+
+    public static Bitmap inputStream2Bitmap(InputStream inputStream) throws Exception {
+        return BitmapFactory.decodeStream(inputStream);
     }
 
     /**
@@ -110,7 +138,7 @@ public class AndroidHttpClientUtils {
          *
          * @param response 成功响应
          */
-        void onFinish(InputStream response);
+        void onFinish(String response);
 
         /**
          * 回调失败。

@@ -1,7 +1,10 @@
 package com.xzy.defaulthttpclient;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -39,7 +42,7 @@ public class DefaultHttpClientUtils {
                 }
             } else {
                 if (httpCallBackListener != null) {
-                    httpCallBackListener.onFinish(response.getEntity().getContent());
+                    httpCallBackListener.onFinish(inputStream2String(response.getEntity().getContent()));
                 }
             }
             ((AndroidHttpClient) client).close();
@@ -75,7 +78,7 @@ public class DefaultHttpClientUtils {
                 }
             } else {
                 if (httpCallBackListener != null) {
-                    httpCallBackListener.onFinish(response.getEntity().getContent());
+                    httpCallBackListener.onFinish(inputStream2String(response.getEntity().getContent()));
                 }
             }
             ((AndroidHttpClient) client).close();
@@ -92,6 +95,27 @@ public class DefaultHttpClientUtils {
         }
     }
 
+    /**
+     * apache 接口实现的图片下载。
+     *
+     * @param url 请求图片的 url。
+     * @return bitmap
+     */
+    static Bitmap image(String url) {
+        try {
+            HttpGet httpGet = new HttpGet(url);
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            InputStream inputStream = httpEntity.getContent();
+            System.out.println(inputStream.available());
+            return BitmapFactory.decodeStream(inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String inputStream2String(InputStream is) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         byte[] b = new byte[4096];
@@ -99,6 +123,10 @@ public class DefaultHttpClientUtils {
             stringBuffer.append(new String(b, 0, n));
         }
         return stringBuffer.toString();
+    }
+
+    public static Bitmap inputStream2Bitmap(InputStream inputStream) throws Exception {
+        return BitmapFactory.decodeStream(inputStream);
     }
 
     /**
@@ -111,7 +139,7 @@ public class DefaultHttpClientUtils {
          *
          * @param response 成功响应
          */
-        void onFinish(InputStream response);
+        void onFinish(String response);
 
         /**
          * 回调失败。

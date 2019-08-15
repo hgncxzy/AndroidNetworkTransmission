@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +20,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.xzy.http.HttpUtils.image;
 import static com.xzy.http.HttpUtils.post;
 import static com.xzy.http.consant.Constant.getUrl;
 import static com.xzy.http.consant.Constant.imgUrl;
@@ -40,7 +39,7 @@ public class HttpActivity extends Activity implements HttpUtils.HttpCallBackList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_get_layout);
+        setContentView(R.layout.activity_main);
         titleText = findViewById(R.id.title);
         lengthText = findViewById(R.id.length);
         result = findViewById(R.id.result);
@@ -54,7 +53,7 @@ public class HttpActivity extends Activity implements HttpUtils.HttpCallBackList
                     @Override
                     public void accept(Integer integer) {
                         // get 请求
-                        HttpUtils.get(getUrl, getParams(),
+                        HttpUtils.get(getUrl,getParams(),
                                 HttpActivity.this);
                     }
                 })
@@ -83,12 +82,12 @@ public class HttpActivity extends Activity implements HttpUtils.HttpCallBackList
     public void getImageReq(View view) {
         Disposable disposable = Flowable.just(imgUrl)
                 .subscribeOn(Schedulers.io())
-                .map(new Function<String, Bitmap>() {
-                    @Override
-                    public Bitmap apply(String imgUrl) throws Exception {
-                        return image(imgUrl);
-                    }
-                })
+               .map(new Function<String, Bitmap>() {
+                   @Override
+                   public Bitmap apply(String s) throws Exception {
+                       return HttpUtils.image(imgUrl);
+                   }
+               })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<Bitmap>() {
                     @Override
@@ -96,21 +95,9 @@ public class HttpActivity extends Activity implements HttpUtils.HttpCallBackList
                         mDownloadImageIv.setImageBitmap(bitmap);
                     }
                 })
-                .subscribe(new Consumer<Bitmap>() {
-                    @Override
-                    public void accept(Bitmap bitmap) {
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Toast.makeText(HttpActivity.this
-                                , "下载异常:" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .subscribe();
         compositeDisposable.add(disposable);
     }
-
 
     private Map<String, String> getParams() {
         String name = titleText.getText().toString();
@@ -122,14 +109,14 @@ public class HttpActivity extends Activity implements HttpUtils.HttpCallBackList
     }
 
     @Override
-    public void onFinish(String response) {
+    public void onFinish(InputStream response) {
         disposable = Flowable.just(response)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<String>() {
+                .doOnNext(new Consumer<InputStream>() {
                     @Override
-                    public void accept(String s) {
-                        result.setText(s);
+                    public void accept(InputStream s) throws Exception {
+                        result.setText(HttpUtils.inputStream2String(s));
                     }
                 })
                 .subscribe();
