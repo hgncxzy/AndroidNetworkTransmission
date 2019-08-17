@@ -1,1 +1,1 @@
-include ':javahttp', ':apachehttp', ':androidhttpclient', ':defaulthttpclient'
+include ':javahttp', ':apachehttp', ':androidhttpclient', ':defaulthttpclient', ':parsexml'

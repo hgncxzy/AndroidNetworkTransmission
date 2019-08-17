@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/pull"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="pull 方式解析本地 xml"
+        android:textAllCaps="false"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/sax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="sax 方式解析本地 xml"
+        android:textAllCaps="false"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/dom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="dom 方式解析本地 xml"
+        android:textAllCaps="false"
+        tools:ignore="HardcodedText" />
+</LinearLayout>
