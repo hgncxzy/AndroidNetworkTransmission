@@ -1,6 +1,8 @@
 package com.example.fileupload.httpurlconnection;
 
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -14,10 +16,16 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Locale;
 import java.util.UUID;
+
 /**
+ * 使用 HttpUrlConnection 方式实现小文件上传
  * https://www.jianshu.com/p/b6ffab850d35
+ *
+ * @author xzy
  */
+@SuppressWarnings("unused")
 public class HttpUploadFileHelper {
     private final static String TAG = HttpUploadFileHelper.class.getSimpleName();
 
@@ -29,20 +37,17 @@ public class HttpUploadFileHelper {
      * 文件类型
      */
     private static final String CONTENT_TYPE = "multipart/form-data";
-
     private static final String PREFIX = "--";
 
     /**
      * http 请求消息体中的回车换行
      */
     private static final String CRLF = "\r\n";
-
     private static final String CHARSET_UTF_8 = "UTF-8";
     /**
      * 表单名
      */
     private static final String FORM_NAME = "upload_file";
-
 
     private HttpUploadFileHelper() {
 
@@ -51,9 +56,9 @@ public class HttpUploadFileHelper {
     /**
      * 使用HttpUrlConnection来向服务器上传文件，在上传大文件时，会造成内存溢出
      *
-     * @param url
-     * @param filePath
-     * @param listener
+     * @param url      上传 url
+     * @param filePath 待上传文件路径
+     * @param listener 上传监听回调
      */
     public static void sendByHttpUrlConnection(final String url, final String filePath, final UploadResultListener listener) {
         if (TextUtils.isEmpty(url) || TextUtils.isEmpty(filePath)) {//校验上传路径和文件
@@ -62,10 +67,10 @@ public class HttpUploadFileHelper {
 
         final File uploadFile = new File(filePath);
         if (uploadFile.exists() && uploadFile.isFile()) {
-            new AsyncTask<Void, Void, Boolean>() {
+            new AsyncTask<Void, Void, String>() {
 
                 @Override
-                protected Boolean doInBackground(Void... params) {
+                protected String doInBackground(Void... params) {
 
                     try {
                         StringBuffer headBuffer = new StringBuffer(); //构建文件头部信息
@@ -102,47 +107,39 @@ public class HttpUploadFileHelper {
 
                         FileInputStream fileInputStream = new FileInputStream(uploadFile);
                         byte[] buffer = new byte[1024];
-                        int length;
-                        int count = 0;
+                        int length; // 每次上传的文件大小
+                        float fileUploadSize = 0; // 当前已上传的文件大小
                         while ((length = fileInputStream.read(buffer)) != -1) {
-                            count ++;
-                            if(listener != null){
-                                Log.d("xzy","length*count/uploadFile.length():"+length*count/uploadFile.length());
-                                Log.d("xzy","contentLength:"+contentLength);
-                                Log.d("xzy","uploadFile.length():"+uploadFile.length());
-                                listener.progress(Integer.parseInt(22+""));
+                            if (listener != null) {
+                                fileUploadSize += length;
+                                float progress = fileUploadSize / uploadFile.length() * 100;
+                                listener.progress((int) progress);
                             }
                             outputStream.write(buffer, 0, length);//输出文件内容
-
                         }
                         fileInputStream.close();
 
                         outputStream.write(endBytes);//输出结束行
                         outputStream.close();
-
-                        if (httpURLConnection.getResponseCode() == 200) {//发送成功
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return httpURLConnection.getResponseCode() + "";
 
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
-                        return false;
+                        return "" + e.getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        return false;
+                        return "" + e.getMessage();
                     }
                 }
 
                 @Override
-                protected void onPostExecute(Boolean result) {
+                protected void onPostExecute(String result) {
                     super.onPostExecute(result);
                     if (listener != null) {
-                        if (result) {
+                        if ("200".equals(result)) {
                             listener.onSuccess();
                         } else {
-                            listener.onFailure();
+                            listener.onFailure(result);
                         }
                     }
                 }
@@ -166,10 +163,10 @@ public class HttpUploadFileHelper {
 
         final File uploadFile = new File(filePath);
         if (uploadFile.exists() && uploadFile.isFile()) {
-            new AsyncTask<Void, Void, Boolean>() {
+            new AsyncTask<Void, Void, String>() {
 
                 @Override
-                protected Boolean doInBackground(Void... params) {
+                protected String doInBackground(Void... params) {
                     try {
                         StringBuffer headBuffer = new StringBuffer(); //构建文件头部信息
                         headBuffer.append(PREFIX);
@@ -214,29 +211,28 @@ public class HttpUploadFileHelper {
                         outputStream.write(endBytes);//输出结束行
                         outputStream.close();
 
-                        return true;
+                        return "true";
 
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
-
+                        return e.getMessage();
                     } catch (UnknownHostException e) {
                         e.printStackTrace();
-
+                        return e.getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        return e.getMessage();
                     }
-                    return false;
                 }
 
                 @Override
-                protected void onPostExecute(Boolean result) {
+                protected void onPostExecute(String result) {
                     super.onPostExecute(result);
                     if (listener != null) {
-                        if (result) {
+                        if ("true".equals(result)) {
                             listener.onSuccess();
-
                         } else {
-                            listener.onFailure();
+                            listener.onFailure(result);
 
                         }
                     }
@@ -253,7 +249,7 @@ public class HttpUploadFileHelper {
     public static interface UploadResultListener {
         /**
          * 上传进度
-         * **/
+         **/
         public int progress(int progress);
 
         /**
@@ -264,6 +260,6 @@ public class HttpUploadFileHelper {
         /**
          * 上传失败
          */
-        public void onFailure();
+        public void onFailure(String result);
     }
 }

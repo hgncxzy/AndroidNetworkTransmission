@@ -31,17 +31,10 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                       // try {
-                            String url = "http://yapi.demo.qunar.com/mock/87945/http/file/upload";
-//                            InputStream inputStream = getResources().getAssets().open("test.txt");
-//                            inputStream2File(inputStream, new File(Environment
-//                                    .getExternalStorageDirectory()
-//                                    .getAbsolutePath()+"/test.txt"));
-                            String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/test.txt";
-                            HttpUploadFileHelper.sendByHttpUrlConnection(url,path,MainActivity.this);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
+                        String url = "http://yapi.demo.qunar.com/mock/87945/http/file/upload";
+                        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.txt";
+                        HttpUploadFileHelper.sendByHttpUrlConnection(url, path, MainActivity.this);
+
                     }
                 }).start();
             }
@@ -49,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
     }
 
     /**
-     *
      * https://blog.csdn.net/dulinanaaa/article/details/89181410
      * 将inputStream转化为file
+     *
      * @param is
      * @param file 要输出的文件目录
      */
@@ -66,28 +59,25 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
                 os.write(buffer, 0, len);
             }
         } finally {
-            if(os != null){
+            if (os != null) {
                 os.close();
             }
-           if(is != null){
-               is.close();
-           }
+            if (is != null) {
+                is.close();
+            }
 
         }
     }
 
     @Override
     public int progress(final int progress) {
-        Log.d("xzy",progress+"");
+        Log.d("xzy", progress + "");
         runOnUiThread(new Runnable() {
             @SuppressLint("SetTextI18n")
             @Override
             public void run() {
-               TextView textView = findViewById(R.id.progress);
-               textView.setText(progress+"%");
-               if(textView.getText().toString().equals("100%")){
-                   textView.setText("上传完成");
-               }
+                TextView textView = findViewById(R.id.progress);
+                textView.setText(progress + "%");
             }
         });
         return 0;
@@ -95,13 +85,13 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
 
     @Override
     public void onSuccess() {
-        Log.d("xzy","success");
+        Log.d("xzy", "success");
         Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onFailure() {
-        Log.d("xzy","failure");
-        Toast.makeText(this, "failure", Toast.LENGTH_SHORT).show();
+    public void onFailure(String result) {
+        Log.d("xzy", "failure");
+        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
     }
 }
