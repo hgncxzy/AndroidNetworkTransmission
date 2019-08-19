@@ -3,8 +3,10 @@ package com.example.fileupload;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,20 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fileupload.httpurlconnection.HttpUploadFileHelper;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 public class MainActivity extends AppCompatActivity implements HttpUploadFileHelper.UploadResultListener {
-
+    private ProgressBar uploadBar;
+    private Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Per.isGrantExternalRW(this);
-        findViewById(R.id.upload).setOnClickListener(new View.OnClickListener() {
+
+        uploadBar = findViewById(R.id.uploadProgressbar);
+
+        findViewById(R.id.uploadWithHttp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Thread(new Runnable() {
@@ -39,34 +39,14 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
                 }).start();
             }
         });
-    }
 
-    /**
-     * https://blog.csdn.net/dulinanaaa/article/details/89181410
-     * 将inputStream转化为file
-     *
-     * @param is
-     * @param file 要输出的文件目录
-     */
-    public static void inputStream2File(InputStream is, File file) throws IOException {
-        OutputStream os = null;
-        try {
-            os = new FileOutputStream(file);
-            int len = 0;
-            byte[] buffer = new byte[8192];
 
-            while ((len = is.read(buffer)) != -1) {
-                os.write(buffer, 0, len);
-            }
-        } finally {
-            if (os != null) {
-                os.close();
-            }
-            if (is != null) {
-                is.close();
-            }
+        findViewById(R.id.uploadWithSocket).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        }
+            }
+        });
     }
 
     @Override

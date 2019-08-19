@@ -9,22 +9,39 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/upload"
+        android:id="@+id/uploadWithHttp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="upload"
+        android:text="uploadWithHttpUrlConnection"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+    <Button
+        android:id="@+id/uploadWithSocket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="uploadWithSocket"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
     <TextView
         android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30dp"
         android:text="test"
-
-        />
+        tools:ignore="HardcodedText" />
+    
+    <ProgressBar
+        android:id="@+id/uploadProgressbar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
 
 </LinearLayout>
