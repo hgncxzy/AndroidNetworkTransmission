@@ -103,8 +103,17 @@ public class HttpUploadFileHelper {
                         FileInputStream fileInputStream = new FileInputStream(uploadFile);
                         byte[] buffer = new byte[1024];
                         int length;
+                        int count = 0;
                         while ((length = fileInputStream.read(buffer)) != -1) {
+                            count ++;
+                            if(listener != null){
+                                Log.d("xzy","length*count/uploadFile.length():"+length*count/uploadFile.length());
+                                Log.d("xzy","contentLength:"+contentLength);
+                                Log.d("xzy","uploadFile.length():"+uploadFile.length());
+                                listener.progress(Integer.parseInt(22+""));
+                            }
                             outputStream.write(buffer, 0, length);//输出文件内容
+
                         }
                         fileInputStream.close();
 
@@ -242,6 +251,10 @@ public class HttpUploadFileHelper {
      * 监听上传结果
      */
     public static interface UploadResultListener {
+        /**
+         * 上传进度
+         * **/
+        public int progress(int progress);
 
         /**
          * 上传成功

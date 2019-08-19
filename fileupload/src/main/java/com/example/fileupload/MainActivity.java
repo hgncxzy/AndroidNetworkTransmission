@@ -1,8 +1,11 @@
 package com.example.fileupload;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,22 +25,27 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Per.isGrantExternalRW(this);
-        new Thread(new Runnable() {
+        findViewById(R.id.upload).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                try {
-                    String url = "http://yapi.demo.qunar.com/mock/87945/http/file/upload";
-                    InputStream inputStream = getResources().getAssets().open("test.txt");
-                    inputStream2File(inputStream, new File(Environment
-                            .getExternalStorageDirectory()
-                            .getAbsolutePath()+"/test.txt"));
-                    String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/test.txt";
-                    HttpUploadFileHelper.sendByHttpUrlConnection(url,path,MainActivity.this);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                       // try {
+                            String url = "http://yapi.demo.qunar.com/mock/87945/http/file/upload";
+//                            InputStream inputStream = getResources().getAssets().open("test.txt");
+//                            inputStream2File(inputStream, new File(Environment
+//                                    .getExternalStorageDirectory()
+//                                    .getAbsolutePath()+"/test.txt"));
+                            String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/test.txt";
+                            HttpUploadFileHelper.sendByHttpUrlConnection(url,path,MainActivity.this);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+                    }
+                }).start();
             }
-        }).start();
+        });
     }
 
     /**
@@ -66,6 +74,23 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
            }
 
         }
+    }
+
+    @Override
+    public int progress(final int progress) {
+        Log.d("xzy",progress+"");
+        runOnUiThread(new Runnable() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void run() {
+               TextView textView = findViewById(R.id.progress);
+               textView.setText(progress+"%");
+               if(textView.getText().toString().equals("100%")){
+                   textView.setText("上传完成");
+               }
+            }
+        });
+        return 0;
     }
 
     @Override

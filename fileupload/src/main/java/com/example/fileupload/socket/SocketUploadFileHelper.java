@@ -1,4 +1,4 @@
-package com.example.fileupload.httpurlconnection;
+package com.example.fileupload.socket;
 
 /**
  * https://www.jianshu.com/p/b6ffab850d35
