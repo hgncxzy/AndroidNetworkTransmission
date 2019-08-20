@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
                     @Override
                     public void run() {
                         String url = "http://yapi.demo.qunar.com/mock/87945/http/file/upload";
-                        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.txt";
+                        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.rar";
                         HttpUploadFileHelper.sendByHttpUrlConnection(url, path, MainActivity.this);
 
                     }

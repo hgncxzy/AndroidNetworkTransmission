@@ -94,7 +94,8 @@ public class HttpUploadFileHelper {
                         httpURLConnection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);//设置http消息头部的Content-Type
                         String contentLength = String.valueOf(headBytes.length + endBytes.length + uploadFile.length());
                         httpURLConnection.setRequestProperty("Content-Length", contentLength);//设置内容长度
-
+                        //httpURLConnection.setChunkedStreamingMode(0);
+                        httpURLConnection.setFixedLengthStreamingMode(Long.valueOf(contentLength));
                         OutputStream outputStream = httpURLConnection.getOutputStream();
                         outputStream.write(headBytes);//输出文件头部
 
@@ -114,7 +115,7 @@ public class HttpUploadFileHelper {
 
                         outputStream.write(endBytes);//输出结束行
                         outputStream.close();
-                        return httpURLConnection.getResponseCode() + "";
+                        return httpURLConnection.getResponseCode() + "--"+httpURLConnection.getContent().toString();
 
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
