@@ -28,11 +28,11 @@ Android 基本的数据通信，使用原生形式(非三方框架)实现 get �
 
 ### README
 
-1. [GET 和 POST 请求]()
-2. [parsejson]
-3. [parsexml]
-4. [fileupload]
-5. [filedownload]
+1. [GET 和 POST 请求](https://github.com/hgncxzy/AndroidNetworkTransmission/blob/master/GET_POST_README.md)
+2. [parsejson](https://github.com/hgncxzy/AndroidNetworkTransmission/tree/master/parsejson)
+3. [parsexml](https://github.com/hgncxzy/AndroidNetworkTransmission/tree/master/parsexml)
+4. [fileupload](https://github.com/hgncxzy/AndroidNetworkTransmission/tree/master/fileupload)
+5. [filedownload](https://github.com/hgncxzy/AndroidNetworkTransmission/tree/master/filedownload)
 
 ### 联系
 
