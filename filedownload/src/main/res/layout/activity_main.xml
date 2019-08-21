@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="30dp"
-    tools:ignore="HardcodedText"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
+
     <Button
         android:id="@+id/download1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="调用系统浏览器下载文件"
-        android:textAllCaps="false"
-        />
+        android:textAllCaps="false" />
+
     <Button
         android:id="@+id/download2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="调用系统下载器下载文件"
-        android:textAllCaps="false"
-         />
+        android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/download3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="使用 HttpUrlConnection 下载文件"
+        android:textAllCaps="false" />
 </LinearLayout>
