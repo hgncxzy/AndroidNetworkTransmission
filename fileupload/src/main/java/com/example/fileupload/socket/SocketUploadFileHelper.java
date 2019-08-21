@@ -86,7 +86,8 @@ public class SocketUploadFileHelper {
                         byte[] endBytes = endBuffer.getBytes();
 
                         URL remoteUrl = new URL(url);
-                        Socket socket = new Socket(remoteUrl.getHost(), remoteUrl.getPort());
+                        Log.d("xzy111","host:"+remoteUrl.getHost()+",port:"+remoteUrl.getPort());
+                        Socket socket = new Socket(remoteUrl.getHost(), 7391);
                         OutputStream outputStream = socket.getOutputStream();
                         PrintStream printStream = new PrintStream(outputStream, true, CHARSET_UTF_8);
 
@@ -111,6 +112,7 @@ public class SocketUploadFileHelper {
                             }
                             outputStream.write(buffer, 0, length);
                         }
+                        Log.d("文件大小1",uploadFile.length()+"");
                         fileInputStream.close();
 
                         outputStream.write(endBytes);//输出结束行

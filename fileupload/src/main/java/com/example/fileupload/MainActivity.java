@@ -13,10 +13,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fileupload.httpurlconnection.HttpUploadFileHelper;
+import com.example.fileupload.socket.SocketUploadFileHelper;
+
 
 public class MainActivity extends AppCompatActivity implements HttpUploadFileHelper.UploadResultListener {
     private ProgressBar uploadBar;
     private Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,14 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
         findViewById(R.id.uploadWithSocket).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String url = "http://10.204.241.72:8080/AndroidNetDemo/test";
+                        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.pdf";
+                            SocketUploadFileHelper.uploadFileBySocket(url,path,MainActivity.this);
+                    }
+                }).start();
             }
         });
     }
@@ -58,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements HttpUploadFileHel
             public void run() {
                 TextView textView = findViewById(R.id.progress);
                 textView.setText(progress + "%");
+                uploadBar.setProgress(progress);
             }
         });
         return 0;
