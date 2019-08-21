@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements SystemDownloadMan
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        DownloadByHttpUrlConnection.get(IMG_URL, "test.jpg",null, new DownloadByHttpUrlConnection.HttpCallBackListener() {
+                        DownloadByHttpUrlConnection.get(MainActivity.this,IMG_URL, "test.jpg",null, new DownloadByHttpUrlConnection.HttpCallBackListener() {
                             @Override
                             public void onFinish(InputStream inputStream) {
                                 runOnUiThread(new Runnable() {

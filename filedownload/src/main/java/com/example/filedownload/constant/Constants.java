@@ -1,5 +1,19 @@
 package com.example.filedownload.constant;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
+import android.webkit.MimeTypeMap;
+
+import androidx.core.content.FileProvider;
+
+import com.example.filedownload.BuildConfig;
+
+import java.io.File;
+import java.util.Locale;
+
 /**
  * 常量。
  *
@@ -11,6 +25,63 @@ public class Constants {
     public static String IMG_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000" +
             "&sec=1566328465929&di=be802b12aca56865c80cb104205ca682&imgtype=0&src=http%3A%2F%2Fimg007." +
             "hc360.cn%2Fhb%2Fp8L6411a5b2b1744935bb5F79b79D9b7037.jpg";
+
+    /**
+     * 打开文件
+     *
+     * @param context 上下文
+     * @param file    文件
+     */
+    public static void openFile(Context context, File file) {
+
+        Intent intent1 = new Intent(Intent.ACTION_VIEW);
+        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        String type = getMimeType(file);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri uri1 = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileProvider", file);
+            intent1.setDataAndType(uri1, type);
+        } else {
+            intent1.setDataAndType(Uri.fromFile(file), type);
+        }
+        Log.d("mFile:", file.getAbsolutePath());
+        try {
+            context.startActivity(intent1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private static String getSuffix(File file) {
+        if (file == null || !file.exists() || file.isDirectory()) {
+            return null;
+        }
+        String fileName = file.getName();
+        if (fileName.equals("") || fileName.endsWith(".")) {
+            return null;
+        }
+        int index = fileName.lastIndexOf(".");
+        if (index != -1) {
+            return fileName.substring(index + 1).toLowerCase(Locale.US);
+        } else {
+            return null;
+        }
+    }
+
+    private static String getMimeType(File file) {
+        String suffix = getSuffix(file);
+        if (suffix == null) {
+            return "file/*";
+        }
+        String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix);
+        if (type != null || !type.isEmpty()) {
+            return type;
+        }
+        return "file/*";
+    }
+
 
     public static final String[][] MIME_MapTable = {
             //{后缀名，MIME类型}
